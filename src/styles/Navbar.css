@@ -1,0 +1,101 @@
+#app {
+  padding-top: 60px;
+}
+
+nav {
+  color: var(--background);
+  background-color: var(--primary);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-shadow: 0 5px 10px black;
+}
+
+nav a {
+  color: var(--background);
+  width: 100%;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-size: 20px;
+  display: inline-block;
+  padding: 7px 15px;
+  padding-right: 0px;
+}
+
+nav a:hover {
+  background-color: var(--secondary);
+}
+
+nav button {
+  color: var(--primary);
+  background-color: var(--background);
+  width: auto;
+}
+
+.navbar-header {
+  float: none;
+  box-sizing: border-box;
+  font-size: 26px;
+  line-height: 60px;
+}
+
+.navbar-header h1 {
+  color: var(--background);
+  float: none;
+  position: relative;
+  top: 1px;
+  line-height: 60px;
+}
+
+.navbar-toggle {
+  position: absolute;
+  left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: right;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: var(--primary);
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px 0;
+}
+
+.navbar-sidebar {
+  position: fixed;
+  width: 360px;
+  left: -360px;
+  bottom: 0;
+  top: 0;
+  text-align: left;
+  transition: left 300ms;
+  background-color: inherit;
+  box-shadow: 0 0 10px black;
+}
+
+.navbar-close {
+  float: right;
+  font-size: 26px;
+  padding: 7px 15px;
+  font-weight: bold;
+}
+
+.sidebar-topbar {
+  width: 100%;
+  box-sizing: inherit;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.sidebar-title {
+  float:left;
+  font-size: 26px;
+  font-weight: bold;
+  padding: 10px 8px;
+
+}

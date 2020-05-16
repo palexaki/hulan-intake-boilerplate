@@ -1,0 +1,23 @@
+.brewer {
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+  margin: 10px;
+  padding: 10px;
+  text-align: left;
+}
+
+.brewer-details {
+  padding: 10px;
+}
+
+.brewer-name {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.brewer-beers {
+  margin: 10px;
+}
+
+.brewer-beers .beer-name {
+  color: var(--text);
+}
