@@ -6,6 +6,7 @@ export type LoginState = {
   credentials?: Credentials;
   onSuccess?: (token: SessionToken) => void;
   success?: boolean;
+  failed?: any;
 }
 
 type LoginProps = {
@@ -26,6 +27,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
       },
       onSuccess: props.onSuccess,
       success: false,
+      failed: false
     };
   }
 
@@ -45,11 +47,15 @@ export class Login extends React.Component<LoginProps, LoginState> {
     api.login(this.state.credentials).then( token => {
       this.state.onSuccess(token);
       this.setState({
-        success: true
+        success: true,
+        failed: false
       })
     }).catch(err => {
-      console.error(err);
-      alert("Error logging in please try again");
+      console.log(err);
+      this.setState({
+        success: false,
+        failed: true,
+      })
     });
   }
 
@@ -76,6 +82,16 @@ export class Login extends React.Component<LoginProps, LoginState> {
              required
            />
            <input type="submit" value="Submit"/>
+           { this.state.failed ?
+             <React.Fragment>
+               <p color="red">
+                 Your login failed. The most likely reason is that the CORS
+                 headers have not been set successfully on the api server, for a
+                 quick and dirty fix run(note this is extremely unsafe so tread
+                 carefully):
+               </p>
+               <code>chrome/chromium --disable-web-security --user-data-dir="[directory]"</code>
+             </React.Fragment> : null }
          </form>
     );
   }
