@@ -1,6 +1,8 @@
 import React from "react";
+
 import { Beer as BeerData, api, beerTypeName, beerTypes, BeerType } from "../api/api";
 import "../styles/Beer.css";
+import Modal from "./Modal";
 // @ts-ignore
 import bottle from "../assets/beer-bottle.png";
 
@@ -70,11 +72,11 @@ export class Beers extends React.Component<{}, BeersState> {
                                           onDelete={() => this.handleBeerDelete(beer) }
                                           onEdit={() => this.handleBeerClick(beer) } />)}
 
-        {this.state.selectedBeer ?
+        <Modal onClose={() => this.handleEditClose()} show={Boolean(this.state.selectedBeer)}>
          <BeerEdit
            beer={this.state.selectedBeer}
-           onSubmit={(beer) => this.handleEditClick(beer)}
-           onClose={() => this.handleEditClose()} /> : undefined}
+           onSubmit={(beer) => this.handleEditClick(beer)} />
+        </Modal>
       </div>
     )
   }
@@ -111,7 +113,6 @@ function Beer(props: BeerProps): React.ReactElement {
 type BeerEditProps = {
   beer: BeerData;
   onSubmit: (brewer: BeerData) => void;
-  onClose: () => void;
 }
 
 type BeerEditState = {
@@ -155,52 +156,47 @@ class BeerEdit extends React.Component<BeerEditProps, BeerEditState> {
   render() {
     const beer = this.state.beer;
     return (
-      <div className="modal">
-        <button className="modal-close" onClick={() => this.props.onClose() }>&times;</button>
-      <div className="modal-content">
-        <form onSubmit={this.onSubmit}>
-          <h2>Name</h2>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter name of beer"
-            value={beer.name}
-            onChange={this.handleInputChange}
-            required
-          />
-          <h2>Description</h2>
-          <textarea
-            name="description"
-            required
-            onChange={this.handleInputChange}
-            value={beer.description}
-          />
-          <h2>Type</h2>
-          <select value={beer.type} onChange={this.handleInputChange} name="type">
-            {
-              beerTypes.map((type) => {
-                return (
-                  <option key={type} value={type}>
-                    {beerTypeName(type)}
-                  </option>
-                );
-              })
-            }
-          </select>
-          <h2>Percentage</h2>
-          <input
-            type="number"
-            name="percentage"
-            placeholder="Enter name of beer"
-            value={beer.percentage}
-            onChange={this.handleInputChange}
-            required
-          />
+      <form onSubmit={this.onSubmit}>
+        <h2>Name</h2>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter name of beer"
+          value={beer.name}
+          onChange={this.handleInputChange}
+          required
+        />
+        <h2>Description</h2>
+        <textarea
+          name="description"
+          required
+          onChange={this.handleInputChange}
+          value={beer.description}
+        />
+        <h2>Type</h2>
+        <select value={beer.type} onChange={this.handleInputChange} name="type">
+          {
+            beerTypes.map((type) => {
+              return (
+                <option key={type} value={type}>
+                  {beerTypeName(type)}
+                </option>
+              );
+            })
+          }
+        </select>
+        <h2>Percentage</h2>
+        <input
+          type="number"
+          name="percentage"
+          placeholder="Enter name of beer"
+          value={beer.percentage}
+          onChange={this.handleInputChange}
+          required
+        />
 
-          <input type="submit" value="Submit"/>
-        </form>
-      </div>
-      </div>
+        <input type="submit" value="Submit"/>
+      </form>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { api, beerTypeName, Brewer as BrewerData, Beer } from "../api/api";
+import Modal from "./Modal";
 import "../styles/Brewers.css";
 
 type BrewersState = {
@@ -78,13 +79,12 @@ export class Brewers extends React.Component<{}, BrewersState> {
                               onEdit={() => this.handleBrewerClick(brewer)}
                               onDelete={() => this.handleBrewerDelete(brewer)} />)}
 
-        {this.state.selectedBrewer ?
+        <Modal onClose={() => this.handleEditClose()} show={Boolean(this.state.selectedBrewer)}>
          <BrewerEdit
            beers={this.state.beers}
            brewer={this.state.selectedBrewer}
-           onClose={() => this.handleEditClose()}
-           onSubmit={(brewer) => this.handleEditClick(brewer) }
-        /> : undefined}
+           onSubmit={(brewer) => this.handleEditClick(brewer)}/>
+        </Modal>
       </div>
     );
   }
@@ -124,7 +124,6 @@ function Brewer(props: BrewerProps): React.ReactElement {
 type BrewerEditProps = {
   brewer: BrewerData;
   onSubmit: (brewer: BrewerData) => void;
-  onClose: () => void;
   beers: Beer[];
 }
 
@@ -173,43 +172,38 @@ class BrewerEdit extends React.Component<BrewerEditProps, BrewerEditState> {
   render() {
     const brewer = this.state.brewer;
     return (
-      <div className="modal">
-        <button className="modal-close" onClick={() => this.props.onClose()}>&times;</button>
-        <div className="modal-content">
-          <form onSubmit={this.handleSubmit}>
-            <h2>Name</h2>
-            <input
-              type="text" name="name"
-              placeholder="Enter name of brewer"
-              value={brewer.name}
-              onChange={this.handleInputChange}
-              required
-            />
-            <h2>City</h2>
-            <input
-              type="text" name="city"
-              placeholder="Enter city of brewer"
-              value={brewer.city}
-              onChange={this.handleInputChange}
-              required
-            />
-            <h2>Beers</h2>
-              {this.props.beers.map(beer => {
-                return (
-                  <label className="container" key={beer.id}>
-                      {beer.name}
-                    <input
-                      type="checkbox" name="beerIds"
-                      onChange={this.handleInputChange}
-                      checked={brewer.beerIds.includes(beer.id)}
-                      value={beer.id} />
-                    <span className="checkmark"/>
-                  </label>);
-              })}
-            <input type="submit" value="Submit"/>
-          </form>
-        </div>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <h2>Name</h2>
+        <input
+          type="text" name="name"
+          placeholder="Enter name of brewer"
+          value={brewer.name}
+          onChange={this.handleInputChange}
+          required
+        />
+        <h2>City</h2>
+        <input
+          type="text" name="city"
+          placeholder="Enter city of brewer"
+          value={brewer.city}
+          onChange={this.handleInputChange}
+          required
+        />
+        <h2>Beers</h2>
+          {this.props.beers.map(beer => {
+            return (
+              <label className="container" key={beer.id}>
+                  {beer.name}
+                <input
+                  type="checkbox" name="beerIds"
+                  onChange={this.handleInputChange}
+                  checked={brewer.beerIds.includes(beer.id)}
+                  value={beer.id} />
+                <span className="checkmark"/>
+              </label>);
+          })}
+        <input type="submit" value="Submit"/>
+      </form>
     );
   }
 }
